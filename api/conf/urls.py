@@ -8,7 +8,8 @@ from rest_framework.permissions import AllowAny
 router = DefaultRouter()
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("api/survey/", include("survey.urls")),
     path("api/auth/", include("djoser.urls")),
     path("api/auth/", include("djoser.urls.authtoken")),
 ]
