@@ -23,7 +23,6 @@ class SurveyReadSerializer(serializers.ModelSerializer):
         read_only=True,
         many=True,
     )
-    # questions = serializers.PrimaryKeyRelatedField()
 
     class Meta:
         model = Survey
