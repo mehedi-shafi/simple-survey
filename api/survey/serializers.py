@@ -27,3 +27,18 @@ class SurveyReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = Survey
         fields = "__all__"
+
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = "__all__"
+
+
+class SubmissionSerializer(serializers.ModelSerializer):
+
+    answers = AnswerSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Submission
+        fields = "__all__"

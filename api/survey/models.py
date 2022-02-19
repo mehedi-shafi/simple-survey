@@ -57,9 +57,9 @@ class Submission(BaseModel):
 
 
 class Answer(BaseModel):
-    submission = models.ForeignKey(Submission, on_delete=models.CASCADE)
+    submission = models.ForeignKey(Submission, on_delete=models.CASCADE, related_name="answers")
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.JSONField()
+    answer = models.CharField(max_length=1000)
 
     class Meta:
         db_table = "answer"

@@ -2,8 +2,9 @@ from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from survey.serializers import SurveyReadSerializer, QuestionSerializer, QuestionOptionSerializer
-from survey.models import Survey, Question, QuestionOption
+from survey.serializers import SurveyReadSerializer, QuestionSerializer, QuestionOptionSerializer, SubmissionSerializer
+from survey.models import Survey, Question, QuestionOption, Submission
+from survey.services import SurveyWithAnswerService
 
 
 class QuestionView(viewsets.ModelViewSet):
@@ -47,3 +48,27 @@ class SurveyView(mixins.ListModelMixin, viewsets.GenericViewSet):
 
     queryset = Survey.objects.all()
     serializer_class = SurveyReadSerializer
+
+    @action(methods=["GET"], detail=True)
+    def submissions(self, request, pk=None, *args, **kwargs):
+        try:
+            survey = Survey.objects.get(id=pk)
+        except Survey.DoesNotExist as dne:
+            return Response(data={"errors": f"No survey with id {pk} exists"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(data=SurveyWithAnswerService().get_survey_with_answer(survey.id), status=status.HTTP_200_OK)
+
+
+class SubmissionView(mixins.ListModelMixin, viewsets.GenericViewSet):
+
+    queryset = Submission.objects.all()
+    serializer_class = SubmissionSerializer
+
+    @action(methods=["GET"], detail=True, url_name="with-answers", url_path="with-answers")
+    def with_answers(self, request, pk=None, *args, **kwargs):
+        try:
+            submission = Submission.objects.get(id=pk)
+        except Submission.DoesNotExist as dne:
+            return Response(data={"errors": f"No submission with id {pk} exists"}, status=status.HTTP_404_NOT_FOUND)
+        return Response(
+            data=SurveyWithAnswerService().get_submission_with_answer(submission_id=pk), status=status.HTTP_200_OK
+        )
