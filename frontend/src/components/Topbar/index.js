@@ -18,7 +18,6 @@ import { AuthContext } from '../../contexts/AuthContext';
 let Topbar = (props) => {
     let classes = useStyles();
     let { token, userInfo, onLogoutSuccess } = useContext(AuthContext);
-    let [user, setUser] = useState(null);
     let [anchor, setAnchor] = useState(null);
 
     let onMenuClick = (event) => {
@@ -54,7 +53,7 @@ let Topbar = (props) => {
                     Simple Survey
                 </Link>
                 <div style={{ flexGrow: 1 }} />
-                {user && userInfo ? (
+                {userInfo ? (
                     <>
                         <Typography
                             className={classes.welcomeText}
@@ -62,16 +61,16 @@ let Topbar = (props) => {
                         >
                             Welcome,
                             <strong>
-                                {userInfo.first_name !== '' ||
-                                userInfo.last_name !== ''
-                                    ? userInfo.first_name +
-                                      ' ' +
-                                      userInfo.last_name
+                                {userInfo.name
+                                    ? userInfo.name
                                     : userInfo.user_name}
                             </strong>
                         </Typography>
                         <IconButton onClick={onMenuClick}>
-                            <AccountCircle fontSize="large" />
+                            <AccountCircle
+                                sx={{ color: '#ffffff' }}
+                                fontSize="large"
+                            />
                         </IconButton>
                         <Menu
                             anchorEl={anchor}
@@ -86,35 +85,6 @@ let Topbar = (props) => {
                             }}
                             open={Boolean(anchor)}
                         >
-                            {userInfo.is_superuser && (
-                                <Link className={classes.link} to="/tk">
-                                    <MenuItem> Tk </MenuItem>
-                                </Link>
-                            )}
-                            {userInfo.is_superuser && (
-                                <Link
-                                    className={classes.link}
-                                    to="/lender/credit"
-                                >
-                                    <MenuItem> Lender Credit </MenuItem>
-                                </Link>
-                            )}
-                            {userInfo.is_superuser && (
-                                <Link
-                                    className={classes.link}
-                                    to="/lender/operations"
-                                >
-                                    <MenuItem> Lender Operations </MenuItem>
-                                </Link>
-                            )}
-                            {userInfo.is_superuser && (
-                                <Link className={classes.link} to="/tkadmin">
-                                    <Divider />
-                                    <MenuItem> Admin panel </MenuItem>
-                                </Link>
-                            )}
-                            {userInfo.is_superuser && <Divider />}
-                            <MenuItem> Change Password </MenuItem> <Divider />
                             <MenuItem onClick={onLogoutClick}>Log out</MenuItem>
                         </Menu>
                     </>

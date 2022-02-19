@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
         height: '50px',
     },
     logo: {
-        height: '40px',
+        height: '20px',
         marginRight: theme.spacing(1),
     },
     title: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     welcomeText: {
-        color: theme.palette.text.primary,
+        color: theme.palette.text.white,
     },
 }));
 

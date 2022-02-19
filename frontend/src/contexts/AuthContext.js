@@ -34,8 +34,7 @@ export let AuthProvider = (props) => {
         <AuthContext.Provider
             value={{ token, userInfo, onLoginSuccess, onLogoutSuccess }}
         >
-            {' '}
-            {props.children}{' '}
+            {props.children}
         </AuthContext.Provider>
     );
 };
