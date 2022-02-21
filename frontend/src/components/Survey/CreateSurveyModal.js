@@ -15,6 +15,7 @@ import useStyles from './styles';
 import { AuthContext } from '../../contexts/AuthContext';
 import _ from 'lodash';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 let CreateSurveyModal = (props) => {
     const classes = useStyles();
@@ -34,7 +35,6 @@ let CreateSurveyModal = (props) => {
 
     let handleClose = () => {
         setOpen(false);
-        setSurvey({ ...survey, title: '', description: '' });
     };
 
     let handleSnackbarClose = () => {
@@ -48,6 +48,7 @@ let CreateSurveyModal = (props) => {
     let createSurvey = () => {
         if (_.isEmpty(survey.title)) {
             setSubmissionStatus({
+                ...submissionStatus,
                 show: true,
                 severity: 'warning',
                 message: 'Cannot create Survey without a title!!',
@@ -66,7 +67,8 @@ let CreateSurveyModal = (props) => {
                     }
                 )
                 .then((response) => {
-                    console.log(response.data);
+                    setSurvey({ ...response.data, success: true });
+
                     handleClose();
                 })
                 .catch((err) => {
@@ -85,6 +87,10 @@ let CreateSurveyModal = (props) => {
             [event.target.name]: event.target.value,
         });
     };
+
+    if (survey.success) {
+        return <Navigate to={`/survey/${survey.id}/edit`} />;
+    }
 
     return (
         <>
