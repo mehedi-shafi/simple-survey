@@ -32,6 +32,8 @@ class Question(BaseModel):
     description = models.TextField(max_length=400, null=True, blank=True)
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name="questions")
     question_type = models.CharField(max_length=20, choices=QuestionType.choices, default=QuestionType.TEXT)
+    is_required = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
 
     class Meta:
         db_table = "question"
