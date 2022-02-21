@@ -34,6 +34,11 @@ let SurveyComponent = (props) => {
             .then((response) => {
                 setSurvey(response.data);
                 setQuestions(response.data.questions);
+            })
+            .catch((err) => {
+                if (err.response.status === 404) {
+                    window.location.replace('/');
+                }
             });
     }, []);
 
@@ -56,7 +61,35 @@ let SurveyComponent = (props) => {
         edit = false;
     }
 
-    let inputChangeHandler = (event) => {};
+    let update = () => {
+        axios
+            .patch(`/api/survey/${survey.id}/`, survey, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((response) => setSurvey(response.data))
+            .catch((err) => console.error(err));
+    };
+
+    let deleteSurvey = () => {
+        axios
+            .delete(`/api/survey/${survey.id}/`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((response) => {
+                window.location.replace('/');
+            });
+    };
+
+    let inputChangeHandler = (event) => {
+        setSurvey({
+            ...survey,
+            [event.target.name]: event.target.value,
+        });
+    };
 
     if (_.isEmpty(survey)) return null;
 
@@ -85,12 +118,34 @@ let SurveyComponent = (props) => {
                             fullWidth
                             label="Description"
                             variant="outlined"
-                            multiline
                             name="description"
                             helperText="Add some description."
                             value={survey.description}
                             onChange={inputChangeHandler}
                         />
+                    </Grid>
+                    <Grid item xs={6}>
+                        {' '}
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button
+                            sx={{ width: '100%', margin: '10px' }}
+                            variant="contained"
+                            color="error"
+                            onClick={deleteSurvey}
+                        >
+                            Update
+                        </Button>
+                    </Grid>
+                    <Grid item xs={3}>
+                        <Button
+                            sx={{ width: '100%', margin: '10px' }}
+                            variant="contained"
+                            color="info"
+                            onClick={update}
+                        >
+                            Update
+                        </Button>
                     </Grid>
                 </Grid>
             </Paper>
