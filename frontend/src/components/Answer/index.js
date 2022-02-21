@@ -23,7 +23,6 @@ let Answer = (props) => {
     let [answer, setAnswer] = useState('');
     let [options, setOptions] = useState(question.options);
     let { token } = useContext(AuthContext);
-    let [subquestions, setSubQuestions] = useState([]);
 
     let onChange = (event) => {
         setAnswer(event.target.value);
@@ -129,7 +128,7 @@ let Answer = (props) => {
                     answerSplit.splice(index, 1);
                 }
             }
-            setAnswer(answerSplit.toString());
+            onChange({ target: { value: answerSplit.toString() } });
         };
 
         return (
@@ -208,9 +207,6 @@ let Answer = (props) => {
                     {getInputField()}
                 </Grid>
             </Grid>
-            {subquestions.map((question) => (
-                <Answer question={question} />
-            ))}
         </Paper>
     );
 };
