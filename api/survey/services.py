@@ -31,6 +31,8 @@ class SurveyWithAnswerService:
 
         sql = f"""
             select
+                s.id as submission_id,
+                s.created_at as submission_time,
                 sv.id as survey_id,
                 sv.title as survey_title,
                 sv.description as survey_description,
@@ -107,7 +109,12 @@ class SurveyWithAnswerService:
             survey_id = data["survey_id"]
 
             if survey_id not in response:
-                response[survey_id] = {"id": data["survey_id"], "title": data["survey_title"], "submissions": {}}
+                response[survey_id] = {
+                    "id": data["survey_id"],
+                    "title": data["survey_title"],
+                    "description": data["survey_description"],
+                    "submissions": {},
+                }
 
             username = data["username"]
             if username not in response[survey_id]["submissions"]:
@@ -116,6 +123,8 @@ class SurveyWithAnswerService:
                     "username": username,
                     "full_name": data["full_name"],
                     "questions": {},
+                    "submission_id": data["submission_id"],
+                    "submission_time": data["submission_time"],
                 }
 
             question = data["question_id"]
