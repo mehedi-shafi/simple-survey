@@ -12,6 +12,7 @@ import AuthorizedRoute from './components/Routes/AuthorizedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import SurveyComponent from './components/Survey';
 import Submission from './components/Submission';
+import SubmissionList from './components/SubmissionList';
 
 function App() {
     moment.locale('en');
@@ -44,6 +45,15 @@ function App() {
                                         public
                                         edit
                                         component={SurveyComponent}
+                                    />
+                                }
+                            />
+                            <Route
+                                exact
+                                path="/survey/:id/submissions/"
+                                element={
+                                    <AuthorizedRoute
+                                        component={SubmissionList}
                                     />
                                 }
                             />
