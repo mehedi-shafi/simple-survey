@@ -23,7 +23,6 @@ import { DeleteForever } from '@mui/icons-material';
 import { Navigate } from 'react-router-dom';
 
 let AdminDashboard = (props) => {
-    let [tab, setTab] = useState('surveys-all');
     let { token, userInfo } = useContext(AuthContext);
     let [data, setData] = useState([]);
 
@@ -129,7 +128,7 @@ let AdminDashboard = (props) => {
             .catch((err) => {
                 console.error(err);
             });
-    }, [tab]);
+    }, []);
 
     if (redirect !== '') {
         return <Navigate to={redirect} />;
@@ -138,18 +137,6 @@ let AdminDashboard = (props) => {
     let onFilterChange = (newTab) => {};
     return (
         <Container fluid={true}>
-            <Paper sx={{ width: '100%', padding: '20px' }}>
-                <Grid container spacing={0}>
-                    <Grid item xs={6} sx={{ marginTop: '10px' }}>
-                        <Filter onChange={onFilterChange} />
-                    </Grid>
-                    <Grid item xs={4}></Grid>
-                    <Grid item xs={2}>
-                        <CreateSurveyModal />
-                    </Grid>
-                </Grid>
-            </Paper>
-
             <Paper sx={{ width: '100%' }}>
                 <Table
                     columns={[

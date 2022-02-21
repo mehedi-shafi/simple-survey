@@ -24,6 +24,19 @@ class SurveyReadSerializer(serializers.ModelSerializer):
         many=True,
     )
 
+    has_submission = serializers.SerializerMethodField()
+
+    def get_has_submission(self, obj):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+        if user is not None:
+            submissions = Submission.objects.filter(survey_id=obj.id, user_id=user.id, status="FINISHED")
+            if submissions.exists():
+                return True
+        return False
+
     class Meta:
         model = Survey
         fields = "__all__"

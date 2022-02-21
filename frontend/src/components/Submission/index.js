@@ -70,7 +70,19 @@ let Submission = (props) => {
             )
             .then(
                 axios.spread((...responses) => {
-                    setRedirectTo('/');
+                    axios
+                        .patch(
+                            `/api/survey/submission/${id}/`,
+                            {
+                                status: 'FINISHED',
+                            },
+                            {
+                                headers: {
+                                    Authorization: `Token ${token}`,
+                                },
+                            }
+                        )
+                        .then((response) => setRedirectTo('/'));
                 })
             )
             .catch((err) => console.error(err));
