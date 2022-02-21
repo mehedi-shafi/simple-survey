@@ -8,8 +8,8 @@ class EnumService:
     @staticmethod
     def get_enums():
         response = {
-            "question_types": [x[0] for x in QuestionType.choices],
-            "submission_statuses": [x[0] for x in SubmissionStatus.choices],
+            "question_types": {x[0]: x[1] for x in QuestionType.choices},
+            "submission_statuses": {x[0]: x[1] for x in SubmissionStatus.choices},
         }
         return response
 

@@ -43,7 +43,7 @@ class QuestionOption(BaseModel):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="options")
     option = models.TextField(max_length=200)
     action = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, blank=True)
-    position = models.PositiveIntegerField()
+    position = models.PositiveIntegerField(null=True, blank=True)
 
     class Meta:
         db_table = "question_option"

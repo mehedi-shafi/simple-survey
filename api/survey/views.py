@@ -7,6 +7,12 @@ from survey.models import Survey, Question, QuestionOption, Submission
 from survey.services import SurveyWithAnswerService, EnumService
 
 
+class OptionView(viewsets.ModelViewSet):
+
+    queryset = QuestionOption.objects.all()
+    serializer_class = QuestionOptionSerializer
+
+
 class QuestionView(viewsets.ModelViewSet):
 
     queryset = Question.objects.all()
