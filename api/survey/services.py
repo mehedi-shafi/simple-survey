@@ -18,6 +18,7 @@ class SurveyWithAnswerService:
 
     survey_clause = None
     submission_clause = None
+    user_clause = None
 
     def __init__(self):
         self.survey_clause = lambda survey_id: f"and sv.id = '{survey_id}'" if survey_id is not None else None
@@ -32,14 +33,17 @@ class SurveyWithAnswerService:
             select
                 sv.id as survey_id,
                 sv.title as survey_title,
+                sv.description as survey_description,
                 au.id as user_id,
                 au.username as username,
 	            concat(au.first_name, ' ', au.last_name) as full_name,
                 q.id as question_id,
                 q.title as question,
                 q.question_type as question_type,
+                q.is_active as question_active,
                 qo.id as question_option_id,
                 qo.option as question_option,
+                qo.action_id as question_action,
                 a.answer as raw_answer,
                 case 
                     when qo."option" is not null then qo."option" 
@@ -68,6 +72,34 @@ class SurveyWithAnswerService:
             cursor.execute(sql)
             return dictfetchall(cursor)
 
+    def map_submission_data(self, db_data):
+        data = {}
+        if len(db_data) > 0:
+            data = db_data[0]
+        else:
+            return {}
+        response = {
+            "id": data["survey_id"],
+            "title": data["survey_title"],
+            "description": data["survey_description"],
+            "questions": [],
+        }
+
+        for data in db_data:
+            response["questions"].append(
+                {
+                    "id": data["question_id"],
+                    "title": data["question"],
+                    "question_type": data["question_type"],
+                    "answer": data["answer"],
+                    "raw_answer": data["raw_answer"],
+                    "options": [],
+                    "is_active": data["question_active"],
+                }
+            )
+
+        return response
+
     def map_survey_data(self, db_data):
         response = {}
 
@@ -93,6 +125,8 @@ class SurveyWithAnswerService:
                 "type": data["question_type"],
                 "answer": data["answer"],
                 "raw_answer": data["raw_answer"],
+                "options": [],
+                "is_active": data["question_active"],
             }
 
         return response
@@ -110,4 +144,4 @@ class SurveyWithAnswerService:
 
         db_data = self.get_data_from_db(plug_in_query=plug_in_query)
 
-        return self.map_survey_data(db_data)
+        return self.map_submission_data(db_data)

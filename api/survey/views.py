@@ -2,8 +2,16 @@ from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from survey.serializers import SurveyReadSerializer, QuestionSerializer, QuestionOptionSerializer, SubmissionSerializer
-from survey.models import Survey, Question, QuestionOption, Submission
+from django.contrib.auth import get_user_model
+
+from survey.serializers import (
+    SurveyReadSerializer,
+    QuestionSerializer,
+    QuestionOptionSerializer,
+    SubmissionSerializer,
+    AnswerSerializer,
+)
+from survey.models import Survey, Question, QuestionOption, Submission, Answer
 from survey.services import SurveyWithAnswerService, EnumService
 
 
@@ -68,17 +76,23 @@ class SurveyView(viewsets.ModelViewSet):
         return Response(data=EnumService.get_enums(), status=status.HTTP_200_OK)
 
 
-class SubmissionView(mixins.ListModelMixin, viewsets.GenericViewSet):
+class AnswerView(viewsets.ModelViewSet):
+
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+
+
+class SubmissionView(viewsets.ModelViewSet):
 
     queryset = Submission.objects.all()
     serializer_class = SubmissionSerializer
 
-    @action(methods=["GET"], detail=True, url_name="with-answers", url_path="with-answers")
-    def with_answers(self, request, pk=None, *args, **kwargs):
+    def retrieve(self, request, pk=None):
         try:
             submission = Submission.objects.get(id=pk)
         except Submission.DoesNotExist as dne:
             return Response(data={"errors": f"No submission with id {pk} exists"}, status=status.HTTP_404_NOT_FOUND)
         return Response(
-            data=SurveyWithAnswerService().get_submission_with_answer(submission_id=pk), status=status.HTTP_200_OK
+            data=SurveyWithAnswerService().get_submission_with_answer(submission_id=pk),
+            status=status.HTTP_200_OK,
         )
