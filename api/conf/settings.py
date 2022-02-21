@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "djoser",
     "rest_framework.authtoken",
     "rest_framework",
+    "drf_yasg",
     # project app
     "survey",
 ]

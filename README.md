@@ -1,26 +1,52 @@
-# Django-React-Boilerplate
+# Simple-Survey
 
-This is a boilerplate for kickstarting my projects with Django backend and React front-end. (AND, PostgreSQL) as the database.
+This is a simple survey create and management project built on top of [Django-React-boilerplate](https://github.com/mehedi-shafi/django-react-boilerplate).
 
 ## Index
+* [Features](#features)
 * [Running the project](#running-the-project)
     * [Docker](#docker-running)
     * [Development](#development)
 
+
+## Fetures
+Admins will create user and surveys themselves. User access control is managed by default User model.
+> User creation is managed using django admin panel. 
+### Admin
+- [x] Admins can log into their portal
+- [x] Admin can create multiple surveys.
+- [x] In each survey, the admin can add multiple questions.
+- [x] Depending on one question’s answer another question can be shown.
+- [x] For each question, its answer could be of multiple types, like text-field, number-field, dropdown, checkbox, radio button, etc.
+- [x] In dropdown or checkbox or these types of answers, the admin can give multiple options.
+- [x] Admin can see each survey’s question’s answers in a list.
+- [] Admins can see the submissions of customers in a report
+### User
+- [x] Users can log into the customer portal.
+- [x] Users can select surveys from the list.
+- [x] Users can answer questions.
+- [x] Users can submit the form with the answer.
 ## Running the project
 
-The easiest way to just run the project is to use the included docker-compose file
+The easiest way to just run the project is to use the included docker-compose file.
 
 ### Docker running
 > You may not need to use `sudo` based on the user permission level.
+#### Requirement
+* Docker >= 20.10
+* docker-compose >= 2.2
+
+#### Steps
 * copy the .env.example file to .env
 > `cp .env.example .env`
-* update the .env file with the credentials of your liking.
+* update the .env file with the credentials of your likings. Except the ones with notes that says otherwise all are necessary.
 * Run the project with
 ```sh
 sudo docker-compose up --build -d
 ```
 This will build the necessary images and run the project. You can access the project in `localhost:80` or `localhost` or `127.0.0.1` url.
+
+For `admin/` [django admin] visit `localhost/admin`.
 
 ### Docker configurations
 * Change the running port
