@@ -11,6 +11,7 @@ import Topbar from './components/Topbar';
 import AuthorizedRoute from './components/Routes/AuthorizedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import SurveyComponent from './components/Survey';
+import Submission from './components/Submission';
 
 function App() {
     moment.locale('en');
@@ -26,12 +27,12 @@ function App() {
                             <Route exact path="/login" element={<Login />} />
                             <Route
                                 exact
-                                path="/survey/:id"
+                                path="/submission/:id"
                                 public
                                 element={
                                     <AuthorizedRoute
                                         public
-                                        component={SurveyComponent}
+                                        component={Submission}
                                     />
                                 }
                             />

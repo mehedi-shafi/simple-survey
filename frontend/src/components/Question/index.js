@@ -110,8 +110,9 @@ let Option = (props) => {
                             description: '',
                             question_type: 'TEXT',
                             is_required: false,
-                            is_active: true,
+                            is_active: false,
                             survey: props.surveyId,
+                            position: 0,
                         }}
                         onSave={saveAction}
                     />

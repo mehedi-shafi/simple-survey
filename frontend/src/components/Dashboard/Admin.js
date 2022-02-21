@@ -44,7 +44,23 @@ let AdminDashboard = (props) => {
     };
 
     let participateSurvey = (survey) => {
-        setRedirect(`/survey/${survey.id}/`);
+        axios
+            .post(
+                `/api/survey/submission/`,
+                {
+                    survey: survey.id,
+                    user: userInfo.id,
+                },
+                {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                }
+            )
+            .then((response) => {
+                setRedirect(`/submission/${response.data.id}/`);
+            })
+            .catch((err) => console.error(err));
     };
 
     let submissions = (survey) => {
