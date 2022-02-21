@@ -16,30 +16,74 @@ import moment from 'moment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CreateSurveyModal from '../Survey/CreateSurveyModal';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 
 import EditIcon from '@mui/icons-material/Edit';
+import { DeleteForever } from '@mui/icons-material';
+import { Navigate } from 'react-router-dom';
 
 let AdminDashboard = (props) => {
     let [tab, setTab] = useState('surveys-all');
     let { token, userInfo } = useContext(AuthContext);
     let [data, setData] = useState([]);
 
-    let getAction = () => {
+    let [redirect, setRedirect] = useState('');
+
+    let deleteSurvey = (survey) => {
+        axios
+            .delete(`/api/survey/${survey.id}/`, {
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            })
+            .then((response) => window.location.reload());
+    };
+
+    let editSurvey = (survey) => {
+        setRedirect(`/survey/${survey.id}/edit`);
+    };
+
+    let participateSurvey = (survey) => {
+        setRedirect(`/survey/${survey.id}/`);
+    };
+
+    let submissions = (survey) => {
+        setRedirect(`/survey/${survey.id}/submissions/`);
+    };
+
+    let getAction = (survey) => {
         return (
             <>
                 <Tooltip title="Edit">
-                    <IconButton variant="contained">
+                    <IconButton
+                        variant="contained"
+                        onClick={() => editSurvey(survey)}
+                    >
                         <SettingsIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Participate">
-                    <IconButton variant="contained">
-                        <EditIcon />
+                    <IconButton
+                        variant="contained"
+                        onClick={() => participateSurvey(survey)}
+                    >
+                        <EmojiEmotionsIcon />
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Submissions">
-                    <IconButton variant="contained">
+                    <IconButton
+                        variant="contained"
+                        onClick={() => submissions(survey)}
+                    >
                         <DescriptionIcon />
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete">
+                    <IconButton
+                        variant="contained"
+                        onClick={() => deleteSurvey(survey)}
+                    >
+                        <DeleteForever />
                     </IconButton>
                 </Tooltip>
             </>
@@ -61,7 +105,7 @@ let AdminDashboard = (props) => {
                         created_at: moment(survey.created_at).format(
                             'DD MMM YYYY'
                         ),
-                        action: getAction(),
+                        action: getAction(survey),
                     });
                 });
                 setData(processedData);
@@ -70,6 +114,10 @@ let AdminDashboard = (props) => {
                 console.error(err);
             });
     }, [tab]);
+
+    if (redirect !== '') {
+        return <Navigate to={redirect} />;
+    }
 
     let onFilterChange = (newTab) => {};
     return (
