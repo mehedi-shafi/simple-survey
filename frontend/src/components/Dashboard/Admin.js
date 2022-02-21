@@ -137,6 +137,15 @@ let AdminDashboard = (props) => {
     let onFilterChange = (newTab) => {};
     return (
         <Container fluid={true}>
+            <Paper sx={{ width: '100%', padding: '20px' }}>
+                <Grid container spacing={0}>
+                    <Grid item xs={6} sx={{ marginTop: '10px' }}></Grid>
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={2}>
+                        <CreateSurveyModal />
+                    </Grid>
+                </Grid>
+            </Paper>
             <Paper sx={{ width: '100%' }}>
                 <Table
                     columns={[
