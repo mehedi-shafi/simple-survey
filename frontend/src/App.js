@@ -37,7 +37,7 @@ function App() {
                             />
                             <Route
                                 exact
-                                path="/survey/:id/new"
+                                path="/survey/:id/edit"
                                 element={
                                     <AuthorizedRoute
                                         public

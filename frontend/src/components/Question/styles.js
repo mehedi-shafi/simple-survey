@@ -1,6 +1,15 @@
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+let useStyles = makeStyles({
+    questionContainer: {
+        padding: '10px',
+    },
+    formControl: {
+        '& .MuiInputBase-root.Mui-disabled': {
+            color: 'rgba(0, 0, 0, 0.8)',
+            backgroundColor: 'rgba(128, 128, 128, 0.2)',
+        },
+    },
     modalContainer: {
         position: 'absolute',
         top: '50%',
@@ -13,21 +22,6 @@ const useStyles = makeStyles((theme) => ({
         p: 4,
         padding: '10px',
     },
-    boxStyle: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        '& > :not(style)': {
-            m: 1,
-        },
-        padding: theme.spacing(1),
-    },
-
-    surveyFormContainer: {
-        width: '100%',
-        margin: '20px',
-        padding: '10px',
-    },
-}));
+});
 
 export default useStyles;
