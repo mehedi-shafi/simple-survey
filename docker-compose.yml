@@ -4,7 +4,7 @@ services:
 
     frontend:
         restart: unless-stopped
-        container_name: django-react-boilerplate-frontend
+        container_name: simple-survey-frontend
 
         build:
             context: .
@@ -27,7 +27,7 @@ services:
 
     backend:
         restart: unless-stopped
-        container_name: django-react-boilerplate-backend
+        container_name: simple-survey-backend
 
         build:
             context: .
@@ -48,7 +48,7 @@ services:
     db:
         restart: unless-stopped
         image: postgres:10-alpine
-        container_name: django-react-boilerplate-db
+        container_name: simple-survey-db
         expose:
             - 5432
 
