@@ -14,8 +14,10 @@ import { AuthContext } from '../../contexts/AuthContext';
 import _ from 'lodash';
 import moment from 'moment';
 import SettingsIcon from '@mui/icons-material/Settings';
-import EditIcon from '@mui/icons-material/Edit';
 import DescriptionIcon from '@mui/icons-material/Description';
+import CreateSurveyModal from '../Survey/CreateSurveyModal';
+
+import EditIcon from '@mui/icons-material/Edit';
 
 let AdminDashboard = (props) => {
     let [tab, setTab] = useState('surveys-all');
@@ -25,29 +27,21 @@ let AdminDashboard = (props) => {
     let getAction = () => {
         return (
             <>
-                {userInfo.is_superuser ? (
-                    <Tooltip title="Edit">
-                        <IconButton variant="contained">
-                            <SettingsIcon />
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                    <></>
-                )}
+                <Tooltip title="Edit">
+                    <IconButton variant="contained">
+                        <SettingsIcon />
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title="Participate">
                     <IconButton variant="contained">
                         <EditIcon />
                     </IconButton>
                 </Tooltip>
-                {userInfo.is_superuser ? (
-                    <Tooltip title="Submissions">
-                        <IconButton variant="contained">
-                            <DescriptionIcon />
-                        </IconButton>
-                    </Tooltip>
-                ) : (
-                    <></>
-                )}
+                <Tooltip title="Submissions">
+                    <IconButton variant="contained">
+                        <DescriptionIcon />
+                    </IconButton>
+                </Tooltip>
             </>
         );
     };
@@ -85,7 +79,10 @@ let AdminDashboard = (props) => {
                     <Grid item xs={6} sx={{ marginTop: '10px' }}>
                         <Filter onChange={onFilterChange} />
                     </Grid>
-                    <Grid item xs={6}></Grid>
+                    <Grid item xs={4}></Grid>
+                    <Grid item xs={2}>
+                        <CreateSurveyModal />
+                    </Grid>
                 </Grid>
             </Paper>
 

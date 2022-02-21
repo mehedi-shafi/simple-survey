@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from survey.serializers import SurveyReadSerializer, QuestionSerializer, QuestionOptionSerializer, SubmissionSerializer
 from survey.models import Survey, Question, QuestionOption, Submission
-from survey.services import SurveyWithAnswerService
+from survey.services import SurveyWithAnswerService, EnumService
 
 
 class QuestionView(viewsets.ModelViewSet):
@@ -44,7 +44,7 @@ class QuestionView(viewsets.ModelViewSet):
         return Question.objects.all()
 
 
-class SurveyView(mixins.ListModelMixin, viewsets.GenericViewSet):
+class SurveyView(viewsets.ModelViewSet):
 
     queryset = Survey.objects.all()
     serializer_class = SurveyReadSerializer
@@ -56,6 +56,10 @@ class SurveyView(mixins.ListModelMixin, viewsets.GenericViewSet):
         except Survey.DoesNotExist as dne:
             return Response(data={"errors": f"No survey with id {pk} exists"}, status=status.HTTP_404_NOT_FOUND)
         return Response(data=SurveyWithAnswerService().get_survey_with_answer(survey.id), status=status.HTTP_200_OK)
+
+    @action(methods=["GET"], detail=False)
+    def enums(self, request, *args, **kwargs):
+        return Response(data=EnumService.get_enums(), status=status.HTTP_200_OK)
 
 
 class SubmissionView(mixins.ListModelMixin, viewsets.GenericViewSet):

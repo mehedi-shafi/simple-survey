@@ -1,6 +1,17 @@
 from django.db import connection
 
 from survey.utils.db_utils import dictfetchall
+from survey.enums import QuestionType, SubmissionStatus
+
+
+class EnumService:
+    @staticmethod
+    def get_enums():
+        response = {
+            "question_types": [x[0] for x in QuestionType.choices],
+            "submission_statuses": [x[0] for x in SubmissionStatus.choices],
+        }
+        return response
 
 
 class SurveyWithAnswerService:

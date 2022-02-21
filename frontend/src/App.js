@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Topbar from './components/Topbar';
 import AuthorizedRoute from './components/Routes/AuthorizedRoute';
 import { AuthProvider } from './contexts/AuthContext';
+import SurveyComponent from './components/Survey';
 
 function App() {
     moment.locale('en');
@@ -23,17 +24,37 @@ function App() {
                         <Topbar />
                         <Routes>
                             <Route exact path="/login" element={<Login />} />
-                            {/* <AuthorizedRoute
-                            path="/survey/:id"
-                            public
-                            exact
-                            Component={}
-                        /> */}
+                            <Route
+                                exact
+                                path="/survey/:id"
+                                public
+                                element={
+                                    <AuthorizedRoute
+                                        public
+                                        component={SurveyComponent}
+                                    />
+                                }
+                            />
+                            <Route
+                                exact
+                                path="/survey/:id/new"
+                                element={
+                                    <AuthorizedRoute
+                                        public
+                                        edit
+                                        component={SurveyComponent}
+                                    />
+                                }
+                            />
+
                             <Route
                                 path="/"
                                 public
                                 element={
-                                    <AuthorizedRoute component={DashBoard} />
+                                    <AuthorizedRoute
+                                        public
+                                        component={DashBoard}
+                                    />
                                 }
                             />
                         </Routes>
