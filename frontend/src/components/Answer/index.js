@@ -20,7 +20,7 @@ import _ from 'lodash';
 
 let Answer = (props) => {
     let { question } = props;
-    let [answer, setAnswer] = useState('');
+    let [answer, setAnswer] = useState(question.raw_answer);
     let [options, setOptions] = useState(question.options);
     let { token } = useContext(AuthContext);
 
@@ -37,7 +37,6 @@ let Answer = (props) => {
     useEffect(() => {
         if (!['TEXT', 'NUMERICAL'].includes(question.question_type)) {
             options.map((option) => {
-                console.log(option.action, answer);
                 if (
                     option.action &&
                     answer.toString().split(',').includes(option.id.toString())

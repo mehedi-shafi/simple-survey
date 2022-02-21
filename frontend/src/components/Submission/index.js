@@ -27,11 +27,6 @@ let Submission = (props) => {
     };
 
     useEffect(() => {
-        console.log('Answers updated');
-        console.log(answers);
-    }, [answers]);
-
-    useEffect(() => {
         axios
             .get(`/api/survey/submission/${id}/`, {
                 headers: {
@@ -63,13 +58,9 @@ let Submission = (props) => {
     };
 
     let submit = () => {
-        console.log('submitting');
-        console.log(answers);
-
         axios
             .all(
                 _.values(answers).map((answer) => {
-                    console.log(answer);
                     return axios.post(`/api/survey/answers/`, answer, {
                         headers: {
                             Authorization: `Token ${token}`,
