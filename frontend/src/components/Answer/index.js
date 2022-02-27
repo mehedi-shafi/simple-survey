@@ -109,6 +109,7 @@ let Answer = (props) => {
 
     let renderCheckBox = () => {
         let isChecked = (id) => {
+            if (!answer) return false;
             id = id.toString();
             return answer.split(',').includes(id);
         };
